@@ -1,0 +1,121 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Stalinist+One&display=swap" rel="stylesheet">
+    <script src="jquerry.js"><</script>
+    <title>CodingPlayground</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+        #top-bar{
+            width: auto;
+            height:40px;
+            background-color: #EDEDED;
+        }
+        #coding-playground{
+            font-family:'Stalinist One', cursive;
+            font-size: large;
+            transform: scaleY(1.5);
+            float:left;
+        }
+        #top-bar-buttons{
+        width:300px;
+        margin: 0 auto;
+        transform: translateX(60px);
+
+        
+
+        }
+        .buttons{
+            float: left;
+            border:1px solid grey;
+            padding: 4px;
+            border-right:none;
+            transform: translateY(5px);
+            cursor:default;
+            
+             
+        }
+        #HTML{
+            border-top-left-radius:10%;
+            border-bottom-left-radius: 10%;
+        }
+        #OUTPUT{
+            border-right:1px solid grey;
+            border-top-right-radius:10%;
+            border-bottom-right-radius: 10%;
+        }
+        .active{
+            background-color: rgb(128, 128, 128);
+        }
+        .highlightedButton{
+            background-color:rgb(0, 132, 255);
+        }
+        textarea{
+            width:50%;
+            resize:none;
+            border-top:none;
+            border-color: grey;
+            float:left;
+
+        }
+        .panel{
+            float: left;
+            width:50%;
+            border-left:none;
+        }
+        iframe{
+            border:none;
+            height:100%;
+        }
+        .hidden{
+            display:none;
+        }
+    </style>
+</head> 
+<body>
+<div id="top-bar">
+    <div id="coding-playground">
+        CODING PLAYGROUND
+    </div>
+    <div id="top-bar-buttons">
+        <div class="buttons " id="html">HTML</div>
+        <div class="buttons"id="css">CSS</div>
+        <div class="buttons " id="output">OUTPUT</div>
+    </div>
+
+</div>
+<div id="bodyContainer">
+<textarea id="htmlPanel" class="panel"><p id="paragraph">Hello World!</p></textarea>
+<textarea id="cssPanel" class="panel hidden">p{color:green;}</textarea>
+<iframe id="outputPanel" class="panel"></iframe>
+</div>
+<script>
+$(".buttons").hover(function()
+{
+    $(this).addClass("highlightedButton");
+},
+function(){
+    $(this).removeClass("highlightedButton");
+});
+$(".buttons").click(function()
+{
+    $(this).toggleClass("active");
+    $(this).removeClass("highlightedButton");
+    var panelId = $(this).attr("id") + "Panel";
+    $("#" +panelId).toggleClass("hidden");
+    var numberOfActivePanel = 3-$(".hidden").length;
+    $(".panel").width(($(window).width() / numberOfActivePanel)-10);
+});
+$("textarea").height($(window).height()-$("#top-bar").height());
+$(".panel").width(($(window).width() / 2)-10);
+$("iframe").contents().find("html").html($("#htmlPanel").val());
+$("textarea").on('change keyup paste',function(){
+    $("iframe").contents().find("html").html("<html><head><style>" + $("#cssPanel").val() +"</style></head><body>"+ $("#htmlPanel").val()+ "</body></html>");
+});
+</script>
+</body>
+</html>
